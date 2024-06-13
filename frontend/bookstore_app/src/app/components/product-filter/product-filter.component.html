@@ -1,0 +1,329 @@
+<form>
+  <div class="flex flex-col space-y-1 mb-3">
+    <span class="font-medium text-gray-900">Название книги</span>
+    <div>
+      <input
+        type="text"
+        id="title"
+        [(ngModel)]="filters.title"
+        (ngModelChange)="fixFormChange()"
+        name="title"
+        class="mt-1 block w-full py-2 border border-gray-300 bg-white rounded-md shadow-sm sm:text-sm"
+        placeholder="Введите название книги"
+      />
+    </div>
+  </div>
+  <div class="flex flex-col space-y-1">
+    <span class="font-medium text-gray-900">Цена</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <input
+          type="number"
+          id="minPrice"
+          [(ngModel)]="filters.price__gte"
+          name="minPrice"
+          class="no-spinner mt-1 block w-full py-2 border border-gray-300 bg-white rounded-md shadow-sm sm:text-sm"
+          placeholder="от 0"
+          min="0"
+          max="10000"
+          step="1"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          (input)="validateInput($event)"
+        />
+      </div>
+      <div>
+        <input
+          type="number"
+          id="maxPrice"
+          [(ngModel)]="filters.price__lte"
+          name="maxPrice"
+          class="no-spinner mt-1 block w-full py-2 border border-gray-300 bg-white rounded-md shadow-sm sm:text-sm"
+          placeholder="до 10000"
+          min="0"
+          max="10000"
+          step="1"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          (input)="validateInput($event)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="border-b border-gray-200 py-6">
+    <h3 class="-my-3 flow-root">
+      <button
+        type="button"
+        class="py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500"
+        aria-controls="filter-section-0"
+        aria-expanded="false"
+        (click)="toggle('genres')"
+      >
+        <span class="font-medium text-gray-900">Жанры</span>
+        <span class="ml-6 flex items-center">
+          <svg
+            class="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+            *ngIf="!showGenres"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <svg
+            class="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+            *ngIf="showGenres"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>
+    </h3>
+    <div class="pt-6" *ngIf="showGenres">
+      <div class="space-y-4">
+        @for (genre of genres; track genre) {
+        <div class="flex items-center">
+          <input
+            [value]="genre.id"
+            type="checkbox"
+            (change)="onCheckboxChange($event, 'genres')"
+            [checked]="filters.genres.includes(genre.id)"
+            class="h-4 w-4 border-gray-300 rounded"
+          />
+          <label for="filter-color-0" class="ml-3 text-sm text-gray-600">
+            {{ genre.name }}
+          </label>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="border-b border-gray-200 py-6">
+    <h3 class="-my-3 flow-root">
+      <button
+        type="button"
+        class="py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500"
+        aria-controls="filter-section-0"
+        aria-expanded="false"
+        (click)="toggle('authors')"
+      >
+        <span class="font-medium text-gray-900">Авторы</span>
+        <span class="ml-6 flex items-center">
+          <svg
+            class="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+            *ngIf="!showAuthors"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <svg
+            class="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+            *ngIf="showAuthors"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>
+    </h3>
+    <div class="pt-6" *ngIf="showAuthors">
+      <div class="relative">
+        <input
+          [(ngModel)]="newAuthor"
+          type="text"
+          name="newAuthor"
+          class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm sm:text-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Введите имя автора"
+          (input)="searchAuthors()"
+        />
+        <ul
+          *ngIf="authorSearchResults.length > 0"
+          class="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+        >
+          <li
+            *ngFor="let author of authorSearchResults"
+            class="px-3 py-2 cursor-pointer hover:bg-gray-100"
+            (click)="selectAuthor(author)"
+          >
+            {{ author.full_name }}
+          </li>
+        </ul>
+      </div>
+      <div class="mt-4">
+        <ul
+          class="border border-gray-200 rounded-md"
+          *ngIf="filters.authors.length > 0"
+        >
+          <li
+            *ngFor="let author of authors"
+            class="pl-3 pr-4 py-3 flex items-center justify-between text-sm"
+          >
+            <div class="flex items-center">
+              <span>{{ author.full_name }}</span>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <button
+                type="button"
+                class="font-medium text-red-600 hover:text-red-900"
+                (click)="removeAuthor(author)"
+              >
+                Удалить
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="border-b border-gray-200 py-6">
+    <h3 class="-my-3 flow-root">
+      <button
+        type="button"
+        class="py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500"
+        aria-controls="filter-section-0"
+        aria-expanded="false"
+        (click)="toggle('stock')"
+      >
+        <span class="font-medium text-gray-900">Наличие</span>
+        <span class="ml-6 flex items-center">
+          <svg
+            class="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+            *ngIf="!showStock"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <svg
+            class="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+            *ngIf="showStock"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>
+      <div *ngIf="showStock" class="pt-6">
+        <div class="space-y-4">
+          <div class="flex items-center">
+            <input
+              id="stock"
+              name="stock"
+              type="checkbox"
+              class="h-4 w-4 border-gray-300 rounded"
+              (change)="onCheckboxChange($event, 'stock')"
+              [checked]="filters.stock__gte"
+            />
+            <label for="stock" class="ml-3 text-sm text-gray-600"
+              >В наличии</label
+            >
+          </div>
+        </div>
+      </div>
+    </h3>
+  </div>
+  <div class="border-b border-gray-200 py-6">
+    <h3 class="-my-3 flow-root">
+      <button
+        type="button"
+        class="py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500"
+        aria-controls="filter-section-0"
+        aria-expanded="false"
+        (click)="toggle('ageRating')"
+      >
+        <span class="font-medium text-gray-900">Возрастной рейтинг</span>
+        <span class="ml-6 flex items-center">
+          <svg
+            class="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+            *ngIf="!showAgeRating"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <svg
+            class="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+            *ngIf="showAgeRating"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>
+    </h3>
+    <div *ngIf="showAgeRating" class="pt-6">
+      <div class="space-y-4">
+        @for (ageRating of ['6', '12', '16', '18']; track ageRating) {
+        <div class="flex items-center">
+          <input
+            id="stock"
+            name="stock"
+            type="checkbox"
+            [value]="ageRating"
+            class="h-4 w-4 border-gray-300 rounded"
+            (change)="onCheckboxChange($event, 'ageRating')"
+            [checked]="filters.age_rating.includes(ageRating)"
+          />
+          <label for="stock" class="ml-3 text-sm text-gray-600"
+            >{{ ageRating }}+</label
+          >
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</form>

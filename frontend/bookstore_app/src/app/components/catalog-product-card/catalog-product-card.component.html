@@ -1,0 +1,13 @@
+<a [routerLink]="['/product', book.id]" class="flex flex-col items-center justify-center">
+  <div class="max-w-56 w-full h-80 rounded-lg overflow-hidden">
+    <img
+      [src]="book.cover_image"
+      [alt]="book.title"
+      class="w-full h-full object-center object-fill"
+    />
+  </div>
+  <h3 class="mt-4 text-sm text-gray-700">{{ book.title }}</h3>
+  <p class="mt-1 text-lg font-medium text-gray-900">
+    {{ book.price | currency : "RUB" : "symbol-narrow" }}
+  </p>
+</a>

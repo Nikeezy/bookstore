@@ -1,0 +1,28 @@
+<div class="flex flex-col space-y-8">
+  <div class="md:flex md:items-center md:justify-between text-center md:text-start">
+    <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">
+      {{ showcase.description }}
+    </h2>
+    <a
+      routerLink="/catalog"
+      class="hidden text-sm font-medium text-primary-600 hover:text-primary-500 md:block"
+      >Перейти к покупкам<span aria-hidden="true"> &rarr;</span></a
+    >
+  </div>
+
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+  >
+    @for (book of books; track book) {
+      <app-catalog-product-card [book]="book"></app-catalog-product-card>
+    }
+  </div>
+
+  <div class="mt-8 text-sm md:hidden">
+    <a
+      routerLink="/catalog"
+      class="font-medium text-primary-600 hover:text-primary-500"
+      >Перейти к покупкам<span aria-hidden="true"> &rarr;</span></a
+    >
+  </div>
+</div>

@@ -1,0 +1,118 @@
+<div class="bg-white px-4 lg:px-6 py-2.5">
+  <div>
+    @if (showMobileMenu) {
+    <div
+      class="fixed inset-0 flex z-40 lg:hidden"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        class="fixed inset-0 bg-black bg-opacity-25"
+        aria-hidden="true"
+      ></div>
+
+      <div
+        class="min-[380px]:ml-auto relative min-[380px]:max-w-xs w-full h-full bg-white shadow-xl p-4 flex flex-col overflow-y-auto"
+      >
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-medium text-gray-900">Фильтры</h2>
+          <button
+            type="button"
+            class="-mr-2 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400"
+            (click)="toggleMobileMenu()"
+          >
+            <svg
+              class="h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <app-product-filter class="block lg:hidden"></app-product-filter>
+      </div>
+    </div>
+    }
+
+    <div class="max-w-screen-xl mx-auto">
+      <div
+        class="relative z-10 flex items-baseline justify-between pt-12 pb-6 border-b border-gray-200"
+      >
+        <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">
+          Книги
+        </h1>
+
+        <div class="flex items-center">
+          <app-ordering-menu></app-ordering-menu>
+          <button
+            type="button"
+            class="p-2 -m-2 ml-4 sm:ml-6 text-gray-400 hover:text-gray-500 lg:hidden"
+            (click)="toggleMobileMenu()"
+          >
+            <svg
+              class="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <section aria-labelledby="products-heading" class="pt-6 pb-24">
+        <h2 id="products-heading" class="sr-only">Products</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
+          <app-product-filter class="hidden lg:block"></app-product-filter>
+          <div class="lg:col-span-3 space-y-8">
+            @if(books.length > 0 && books !== null && books !== undefined) {
+            <div
+              class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 md:grid-cols-3 gap-x-6 lg:gap-x-8"
+            >
+              @for (book of books | paginate : { itemsPerPage: pageSize,
+              currentPage: currentPage, totalItems: totalItems, id: 'pagination'
+              }; track book) {
+              <app-catalog-product-card
+                [book]="book"
+              ></app-catalog-product-card>
+              }
+            </div>
+
+            <div class="flex items-center justify-center">
+              <pagination-controls
+                (pageChange)="onPageChange($event)"
+                id="pagination"
+                [autoHide]="true"
+                [maxSize]="8"
+                [responsive]="true"
+                previousLabel="Назад"
+                nextLabel="Вперёд"
+              >
+              </pagination-controls>
+            </div>
+            }
+            @if (isEmpty){
+              <app-no-results-message></app-no-results-message>
+            }
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

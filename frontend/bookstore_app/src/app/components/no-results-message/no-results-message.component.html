@@ -1,0 +1,45 @@
+<div class="max-w-lg mx-auto bg-white p-8 rounded-md shadow-md mt-4">
+  <div class="flex flex-col text-center items-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="48"
+      height="48"
+      viewBox="0 0 48 48"
+      fill="none"
+    >
+      <path
+        d="M22 18C22 19.6569 20.6569 21 19 21C17.3431 21 16 19.6569 16 18C16 16.3431 17.3431 15 19 15C20.6569 15 22 16.3431 22 18Z"
+        fill="currentColor"
+      />
+      <path
+        d="M32 18C32 19.6569 30.6569 21 29 21C27.3431 21 26 19.6569 26 18C26 16.3431 27.3431 15 29 15C30.6569 15 32 16.3431 32 18Z"
+        fill="currentColor"
+      />
+      <path
+        d="M15.4679 31.7815C17.2259 28.9134 20.3895 27 23.9999 27C27.6104 27 30.774 28.9134 32.532 31.7815C32.7975 32.2146 32.9302 32.4312 32.8638 32.647C32.8443 32.7104 32.8049 32.7809 32.761 32.8306C32.6117 33 32.3386 33 31.7925 33H16.2074C15.6613 33 15.3882 33 15.2389 32.8306C15.195 32.7809 15.1555 32.7104 15.136 32.647C15.0697 32.4312 15.2024 32.2146 15.4679 31.7815Z"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M24 42C33.9411 42 42 33.9411 42 24C42 14.0589 33.9411 6 24 6C14.0589 6 6 14.0589 6 24C6 33.9411 14.0589 42 24 42Z"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <h2 class="mt-4 text-lg font-medium text-gray-900">
+      {{ isSingle ? "Товар не найден" : "Товары не найдены" }}
+    </h2>
+    <p class="mt-2 text-sm text-gray-500">
+      Извините, но мы не смогли найти
+      {{
+        isSingle
+          ? "товар, соответствующий вашему запросу."
+          : "товары, соответствующие вашему запросу."
+      }}
+    </p>
+  </div>
+</div>
